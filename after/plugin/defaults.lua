@@ -10,3 +10,6 @@ vim.opt.termguicolors = true
 
 -- set gitmoji remap
 vim.keymap.set('n', '<leader>se', require('telescope').extensions.gitmoji.gitmoji, { desc = '[S]earch Git [E]moji' })
+
+-- colorscheme
+vim.cmd("colorscheme nightfox")
