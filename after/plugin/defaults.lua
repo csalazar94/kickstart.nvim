@@ -13,3 +13,12 @@ vim.keymap.set('n', '<leader>se', require('telescope').extensions.gitmoji.gitmoj
 
 -- colorscheme
 vim.cmd("colorscheme nightfox")
+
+-- vertical navigation
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "n", "nzzzv")
+vim.keymap.set("n", "N", "Nzzzv")
+
+-- formatting
+vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
