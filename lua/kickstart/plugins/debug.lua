@@ -9,7 +9,6 @@
 return {
   -- NOTE: Yes, you can install new plugins here!
   'mfussenegger/nvim-dap',
-
   -- NOTE: And you can specify dependencies as well
   dependencies = {
     -- Creates a beautiful debugger UI
@@ -22,7 +21,6 @@ return {
     -- Add your own debuggers here
     'leoluz/nvim-dap-go',
   },
-
   config = function()
     local dap = require 'dap'
     local dapui = require 'dapui'
@@ -32,17 +30,18 @@ return {
       -- reasonable debug configurations
       automatic_setup = true,
 
+      -- You can provide additional configuration to the handlers,
+      -- see mason-nvim-dap README for more information
+      handlers = {},
+
       -- You'll need to check that you have the required things installed
       -- online, please don't ask me how to install them :)
       ensure_installed = {
         -- Update this to ensure that you have the debuggers for the langs you want
         'delve',
+        'node2',
       },
     }
-
-    -- You can provide additional configuration to the handlers,
-    -- see mason-nvim-dap README for more information
-    require('mason-nvim-dap').setup_handlers()
 
     -- Basic debugging keymaps, feel free to change to your liking!
     vim.keymap.set('n', '<F5>', dap.continue)
@@ -71,9 +70,12 @@ return {
           step_back = 'b',
           run_last = '▶▶',
           terminate = '⏹',
+          disconnect = "⏏",
         },
       },
     }
+    -- toggle to see last session result. Without this ,you can't see session output in case of unhandled exception.
+    vim.keymap.set("n", "<F7>", dapui.toggle)
 
     dap.listeners.after.event_initialized['dapui_config'] = dapui.open
     dap.listeners.before.event_terminated['dapui_config'] = dapui.close
@@ -81,5 +83,41 @@ return {
 
     -- Install golang specific config
     require('dap-go').setup()
+
+    dap.adapters.node2 = {
+      type = 'executable',
+      command = 'node',
+      args = { os.getenv('HOME') .. '/dev/microsoft/vscode-node-debug2/out/src/nodeDebug.js' },
+    }
+    dap.configurations.javascript = {
+      {
+        name = 'Launch',
+        type = 'node2',
+        request = 'launch',
+        program = '${file}',
+        cwd = vim.fn.getcwd(),
+        sourceMaps = true,
+        protocol = 'inspector',
+        console = 'integratedTerminal',
+      },
+      {
+        -- For this to work you need to make sure the node process is started with the `--inspect` flag.
+        name = 'Attach to process',
+        type = 'node2',
+        request = 'attach',
+        processId = require 'dap.utils'.pick_process,
+      },
+      {
+        name = 'Docker: Attach to Node',
+        type = 'node2',
+        request = 'attach',
+        restart = true,
+        address = 'localhost',
+        port = 9229,
+        localRoot = '${workspaceFolder}',
+        remoteRoot = '/usr/src/app',
+        protocol = 'inspector',
+      },
+    }
   end,
 }
