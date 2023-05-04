@@ -11,6 +11,8 @@ return {
   'mfussenegger/nvim-dap',
   -- NOTE: And you can specify dependencies as well
   dependencies = {
+    'theHamsta/nvim-dap-virtual-text',
+
     -- Creates a beautiful debugger UI
     'rcarriga/nvim-dap-ui',
 
@@ -24,6 +26,7 @@ return {
   config = function()
     local dap = require 'dap'
     local dapui = require 'dapui'
+
 
     require('mason-nvim-dap').setup {
       -- Makes a best effort to setup the various debuggers with
@@ -119,5 +122,7 @@ return {
         protocol = 'inspector',
       },
     }
+
+    require("nvim-dap-virtual-text").setup({})
   end,
 }
