@@ -6,7 +6,8 @@ return {
   requires = {
     'nvim-tree/nvim-web-devicons', -- optional, for file icons
   },
-  config = function ()
+  config = function()
     require('nvim-tree').setup {}
+    vim.keymap.set('n', '<leader>n', ':NvimTreeToggle<CR>')
   end,
 }
