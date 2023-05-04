@@ -11,9 +11,6 @@ vim.opt.termguicolors = true
 -- set gitmoji remap
 vim.keymap.set('n', '<leader>se', require('telescope').extensions.gitmoji.gitmoji, { desc = '[S]earch Git [E]moji' })
 
--- colorscheme
-vim.cmd("colorscheme nightfox")
-
 -- vertical navigation
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
