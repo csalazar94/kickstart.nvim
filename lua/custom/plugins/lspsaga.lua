@@ -10,7 +10,7 @@ return {
 
       vim.keymap.set('n', keys, func, { desc = desc })
     end
-    nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+    nmap('<leader>rn', '<cmd>Lspsaga rename<CR>', '[R]e[n]ame')
     nmap('<leader>ca', '<cmd>Lspsaga code_action<CR>', '[C]ode [A]ction')
     nmap('gd', '<cmd>Lspsaga goto_definition<CR>', '[G]oto [D]efinition')
     nmap('K', '<cmd>Lspsaga hover_doc<CR>', 'Hover Documentation')
