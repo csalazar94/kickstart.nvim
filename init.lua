@@ -461,7 +461,13 @@ require('mason-lspconfig').setup()
 --  If you want to override the default filetypes that your language server will attach to you can
 --  define the property 'filetypes' to the map in question.
 local servers = {
-  tsserver = {},
+  tsserver = {
+    init_options = {
+      preferences = {
+        disableSuggestions = true,
+      },
+    },
+  },
   html = {},
   cssls = {},
   tailwindcss = {},
@@ -470,6 +476,9 @@ local servers = {
   emmet_ls = {},
   prismals = {},
   pyright = {},
+  volar = {
+    filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'json' },
+  },
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
@@ -495,12 +504,21 @@ mason_lspconfig.setup {
 
 mason_lspconfig.setup_handlers {
   function(server_name)
-    require('lspconfig')[server_name].setup {
-      capabilities = capabilities,
-      on_attach = on_attach,
-      settings = servers[server_name],
-      filetypes = (servers[server_name] or {}).filetypes,
-    }
+    if server_name == 'tsserver' then
+      require('lspconfig')[server_name].setup {
+        capabilities = capabilities,
+        on_attach = on_attach,
+        init_options = (servers[server_name] or {}).init_options,
+        filetypes = (servers[server_name] or {}).filetypes,
+      }
+    else
+      require('lspconfig')[server_name].setup {
+        capabilities = capabilities,
+        on_attach = on_attach,
+        settings = servers[server_name],
+        filetypes = (servers[server_name] or {}).filetypes,
+      }
+    end
   end,
 }
 
@@ -512,7 +530,6 @@ mason_tool_installer.setup {
     'stylua', -- lua formatter
     'isort', -- python formatter
     'black', -- python formatter
-    'pylint', -- python linter
     'eslint_d', -- js linter
   },
 }

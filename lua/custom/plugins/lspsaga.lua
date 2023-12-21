@@ -1,8 +1,12 @@
 return {
-  "glepnir/lspsaga.nvim",
-  event = "LspAttach",
+  'glepnir/lspsaga.nvim',
+  event = 'LspAttach',
   config = function()
-    require("lspsaga").setup({})
+    require('lspsaga').setup {
+      lightbulb = {
+        enable = false,
+      },
+    }
     local nmap = function(keys, func, desc)
       if desc then
         desc = 'LSP SAGA: ' .. desc
@@ -20,8 +24,8 @@ return {
     nmap('<leader>sb', '<cmd>Lspsaga show_buf_diagnostics<CR>', 'Show buffer diagnostics')
   end,
   dependencies = {
-    { "nvim-tree/nvim-web-devicons" },
+    { 'nvim-tree/nvim-web-devicons' },
     --Please make sure you install markdown and markdown_inline parser
-    { "nvim-treesitter/nvim-treesitter" }
-  }
+    { 'nvim-treesitter/nvim-treesitter' },
+  },
 }
