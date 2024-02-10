@@ -18,6 +18,7 @@ return {
         yaml = { { 'prettierd', 'prettier' } },
         markdown = { { 'prettierd', 'prettier' } },
         graphql = { { 'prettierd', 'prettier' } },
+        handlebars = { { 'prettierd', 'prettier' } },
       },
     }
 
